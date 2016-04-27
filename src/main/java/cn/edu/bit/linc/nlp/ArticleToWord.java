@@ -24,49 +24,47 @@ public class ArticleToWord {
         if(dir.isDirectory()){
             File[] files = dir.listFiles();
             for (File file : files){
-                System.out.println(file.getName());
-                File outFile = new File("C:\\Users\\wyq\\Desktop\\linuxone\\nlp_results\\" + file.getName());
+                System.out.println("开始处理文章: " + file.getName());
+                File outFile = new File("C:\\Users\\wyq\\Desktop\\linuxone\\word_list\\" + file.getName());
                 if(outFile.exists()){
                     System.out.println("文件 " + file.getName() + " 已经存在，忽略该文件继续");
                     continue;
                 }
 
-                StringBuffer text = new StringBuffer();
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(file));
-                    String line = null;
-                    while((line = br.readLine()) != null){
-                         text.append(line);
-                    }
-                    br.close();
-//                    System.out.println(text.toString());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Annotation document = new Annotation(text.toString());
-                pipeline.annotate(document);
-
-                List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
-//                System.out.println("word\tpos\tlemma\tner");
-
                 BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
-                for(CoreMap sentence: sentences) {
-                    // traversing the words in the current sentence
-                    // a CoreLabel is a CoreMap with additional token-specific methods
-                    for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-                        String word = token.get(CoreAnnotations.TextAnnotation.class);
-                        String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-                        String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-                        String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line = "";
+                while(line != null){
+                    StringBuffer text = new StringBuffer();
+                    for (int i = 0; i < 20; i++) {
+                        line = br.readLine();
+                        if(line != null&& !line.equals("")) text.append(line);
+                        else break;
+                    }
 
-                        //System.out.println(word + "\t" + pos + "\t" + lemma + "\t" + ne);
-                        bw.write(word + "\t" + pos + "\t" + lemma + "\t" + ne);
-                        bw.newLine();
+                    Annotation document = new Annotation(text.toString());
+                    pipeline.annotate(document);
+
+                    List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+
+                    for(CoreMap sentence: sentences) {
+                        // traversing the words in the current sentence
+                        // a CoreLabel is a CoreMap with additional token-specific methods
+                        for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                            String word = token.get(CoreAnnotations.TextAnnotation.class);
+                            String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                            String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+                            String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
+
+                            //System.out.println(lemma + "\t" + pos + "\t" + ne + "\t" + word);
+                            if(pos.startsWith("NN")) {
+                                bw.write(lemma + "\t" + pos + "\t" + ne + "\t" + word);
+                                bw.newLine();
+                            }
+                        }
                     }
                 }
+                br.close();
                 bw.close();
 
             }
