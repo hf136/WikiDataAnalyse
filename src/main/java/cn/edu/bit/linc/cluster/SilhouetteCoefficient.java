@@ -101,7 +101,7 @@ public class SilhouetteCoefficient {
 
     public static void main(String[] args) throws IOException {
         SilhouetteCoefficient sc = new SilhouetteCoefficient();
-        System.out.println(sc.calcFromFile("user_result.txt", 3));
+        System.out.println(sc.calcFromFile("result.txt", 20));
     }
 
 }
