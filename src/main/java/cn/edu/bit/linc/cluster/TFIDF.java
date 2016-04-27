@@ -86,6 +86,7 @@ public class TFIDF {
         brs.close();
 
         BufferedWriter bw = new BufferedWriter(new FileWriter("vector_list.txt"));
+        BufferedWriter vectorNameWriter = new BufferedWriter(new FileWriter("vector_list_with_name.txt"));
         File dir = new File("C:\\Users\\wyq\\Desktop\\linuxone\\word_count");
         if(dir.isDirectory()) {
             File[] files = dir.listFiles();
@@ -111,23 +112,38 @@ public class TFIDF {
                 for (int i = 0; i < size; i++) {
                     if(map.containsKey(words[i])){
                         flag = 1;
-                        if(i == 0) bw.write(map.get(words[i]).toString());
-                        else bw.write(" " + map.get(words[i]).toString());
+                        if(i == 0) {
+                            bw.write(map.get(words[i]).toString());
+                            vectorNameWriter.write(map.get(words[i]).toString());
+                        }
+                        else{
+                            bw.write(" " + map.get(words[i]).toString());
+                            vectorNameWriter.write(" " + map.get(words[i]).toString());
+                        }
                     }
                     else{
-                        if(i == 0) bw.write("0");
-                        else bw.write(" 0");
+                        if(i == 0){
+                            bw.write("0");
+                            vectorNameWriter.write("0");
+                        }
+                        else{
+                            bw.write(" 0");
+                            vectorNameWriter.write(" 0");
+                        }
                     }
                 }
                 if(flag == 0){
                     cnt++;
                     System.out.println("zero: " + file.getName());
                 }
+                vectorNameWriter.write("\t" + file.getName());
+                vectorNameWriter.newLine();
                 bw.newLine();
             }
             System.out.println("total zero vector: " + cnt);
         }
         bw.close();
+        vectorNameWriter.close();
 
     }
 
