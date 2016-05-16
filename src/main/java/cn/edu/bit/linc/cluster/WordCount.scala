@@ -18,7 +18,6 @@ object WordCount {
       val files = dir.listFiles();
       for(file <- files){
         val textFiles = sc.textFile("C:\\Users\\wyq\\Desktop\\linuxone\\wordlist\\" + file.getName)
-
         val wordCounts = textFiles.map(line => line.split("\\s")(0)).map(word => (word, 1)).reduceByKey((a, b) => a+b)
 
         val out = new PrintWriter("C:\\Users\\wyq\\Desktop\\linuxone\\word_count\\" + file.getName)
