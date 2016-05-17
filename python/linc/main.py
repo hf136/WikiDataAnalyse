@@ -96,11 +96,11 @@ def cost(paths, links, vectors, theta, k=2):
     return cnt
 
 # 训练
-def training(k=2, iters=1, alpha=1):
+def training(k=2, iters=1, alpha=1, randomNum=10):
     links, paths, vectors = file2dataframe()
-    theta = np.ones((1, 4))
+    theta = np.ones((k-1, 4))
     for cnt in range(iters):                    # 迭代次数
-        for i in range(10):         # 对于每一个样本前缀 i (path)  paths.shape[0]
+        for i in range(randomNum):         # 对于每一个样本前缀 i (path)  paths.shape[0]
             for j in range(k-1):                # 每一个 path 的第 j 次点击
                 prefix = paths['path'][i]
                 # print prefix
@@ -120,11 +120,18 @@ def training(k=2, iters=1, alpha=1):
                 theta[j] = theta[j] + alpha*(f - sum)
     return theta
 
+# run
+def run(randomNum):
+    theta = training(k=3, randomNum=randomNum)
+    print theta
+    links, paths, vectors = file2dataframe()
+    cost(paths, links, vectors, theta, k=3)
+
 if __name__ == "__main__":
     print "start main"
-    theta = training()
+    theta = training(k=3, randomNum=1)
     print theta
     # rank()
     # theta = np.ones((1, 4))
     links, paths, vectors = file2dataframe()
-    cost(paths, links, vectors, theta, k=2)
+    cost(paths, links, vectors, theta, k=3)
