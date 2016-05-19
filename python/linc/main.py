@@ -130,6 +130,9 @@ def training(k=2, iters=1, alpha=1, randomNum=10):
                 # print prefix
                 u1 = prefix[j]
                 u2 = prefix[j+1]
+                if u2 == "<":
+                    print "遇到'<',忽略继续"
+                    continue
                 t = prefix[len(prefix)-1]
                 us = links[links[0] == u1][1].values
                 deg2 = degrees[u2]
@@ -158,7 +161,7 @@ def run(randomNum):
 
 if __name__ == "__main__":
     print "start main"
-    theta = training(k=3, randomNum=10)
+    theta = training(k=3, randomNum=100)
     print theta
     # rank()
     # theta = np.ones((1, 4))

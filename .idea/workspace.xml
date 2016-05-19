@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6d2b3397-1fca-4c51-adde-a925ad8fb341" name="Default" comment="Fix: some bug">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/python/linc/GenerateFeature.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/python/linc/TargetPrediction.py" />
+    <list default="true" id="6d2b3397-1fca-4c51-adde-a925ad8fb341" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/linc/main.py" afterPath="$PROJECT_DIR$/python/linc/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -23,7 +21,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/WikiDataAnalyse$test.coverage" NAME="test Coverage Results" MODIFIED="1463104983002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python" />
     <SUITE FILE_PATH="coverage/WikiDataAnalyse$TargetPrediction.coverage" NAME="TargetPrediction Coverage Results" MODIFIED="1463556607552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/linc" />
-    <SUITE FILE_PATH="coverage/WikiDataAnalyse$main.coverage" NAME="main Coverage Results" MODIFIED="1463645938207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/linc" />
+    <SUITE FILE_PATH="coverage/WikiDataAnalyse$main.coverage" NAME="main Coverage Results" MODIFIED="1463646891500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/linc" />
     <SUITE FILE_PATH="coverage/WikiDataAnalyse$GenerateFeature.coverage" NAME="GenerateFeature Coverage Results" MODIFIED="1463625822744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/linc" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -44,8 +42,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/python/linc/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9840989">
-              <caret line="159" column="22" selection-start-line="159" selection-start-column="22" selection-end-line="159" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.60954064">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#24#43#0" expanded="true" />
               </folding>
@@ -1000,7 +998,7 @@
       <workItem from="1462451800405" duration="9610000" />
       <workItem from="1463064091808" duration="1428000" />
       <workItem from="1463104313193" duration="33739000" />
-      <workItem from="1463366782435" duration="42428000" />
+      <workItem from="1463366782435" duration="42926000" />
     </task>
     <task id="LOCAL-00001" summary="complete k-means">
       <created>1461749102800</created>
@@ -1044,11 +1042,17 @@
       <option name="project" value="LOCAL" />
       <updated>1463483857058</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Mod: 变成矩阵运算， 提升速度">
+      <created>1463646541941</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1463646541941</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="205823000" />
+    <option name="totallyTimeSpent" value="206321000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1076,7 +1080,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3155604" sideWeight="0.4871795" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2008547" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2008547" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1109,7 +1113,8 @@
     <MESSAGE value="Add: PageRank" />
     <MESSAGE value="Add: Py  files" />
     <MESSAGE value="Fix: some bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: some bug" />
+    <MESSAGE value="Mod: 变成矩阵运算， 提升速度" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mod: 变成矩阵运算， 提升速度" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1558,8 +1563,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/python/linc/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9840989">
-          <caret line="159" column="22" selection-start-line="159" selection-start-column="22" selection-end-line="159" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.60954064">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="e#24#43#0" expanded="true" />
           </folding>
