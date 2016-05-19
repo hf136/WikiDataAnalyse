@@ -50,6 +50,29 @@ def p(u1, v, target, links, vectors, theta):
     f = feature(vectors.ix[u1], vectors.ix[v], vectors.ix[target], len(us), len(deg2))
     return (fz / fm) * f
 
+
+# 计算 sum( P(u2|u1,t;theta) * f )
+def p2(u1, target, links, vectors, theta):
+    us = links[links[0] == u1][1].values
+    l = len(us)
+    arr = np.zeros((l, 4))
+    for i in range(l):
+        u2 = us[i]
+        deg2 = links[links[0] == u2][1].values
+        arr[i] = feature(vectors.ix[u1], vectors.ix[u2], vectors.ix[target], len(us), len(deg2))
+    mat = np.mat(arr)       # 原始特征矩阵 f (按行)
+    # print "f 矩阵：",mat
+    t = np.mat(theta)       # theta 矩阵
+    res = (mat * t.transpose())  # f*theta
+    # print "f*theta 矩阵：",res
+    res = np.exp(res)           # exp(f*theta)
+    sum = res.sum()             # sum( exp(f*theta) )
+    res = res / sum             # P 矩阵
+    # print "P 矩阵：",res
+    res = mat.transpose() * res
+    # print "P*f 矩阵：",res
+    return res
+
 # 计算P(q|t; theta)
 def probability(prefix, target, links, vectors, theta, k=2):
     p = 1.0 / 4604
@@ -98,6 +121,7 @@ def cost(paths, links, vectors, theta, k=2):
 # 训练
 def training(k=2, iters=1, alpha=1, randomNum=10):
     links, paths, vectors = file2dataframe()
+    degrees = links[1].groupby(links[0]).count()
     theta = np.ones((k-1, 4))
     for cnt in range(iters):                    # 迭代次数
         for i in range(randomNum):         # 对于每一个样本前缀 i (path)  paths.shape[0]
@@ -108,15 +132,20 @@ def training(k=2, iters=1, alpha=1, randomNum=10):
                 u2 = prefix[j+1]
                 t = prefix[len(prefix)-1]
                 us = links[links[0] == u1][1].values
-                deg2 = links[links[0] == u2][1].values
-                # print u1, u2, t
-                # print(vectors)
-                f = feature(vectors.ix[u1], vectors.ix[u2], vectors.ix[t], len(us), len(deg2))
-                sum = np.zeros(4)
-                for v in range(len(us)):
-                    # print(sum)
-                    # print(p(u1, u2, t, links, vectors, theta[j]))
-                    sum = sum + p(u1, u2, t, links, vectors, theta[j])
+                deg2 = degrees[u2]
+                # # print u1, u2, t
+                # # print(vectors)
+                f = feature(vectors.ix[u1], vectors.ix[u2], vectors.ix[t], len(us), deg2)
+                # sum = np.zeros(4)
+                # for v in range(len(us)):
+                #     # print(sum)
+                #     # print(p(u1, u2, t, links, vectors, theta[j]))
+                #     sum = sum + p(u1, u2, t, links, vectors, theta[j])
+                # theta[j] = theta[j] + alpha*(f - sum)
+                sum = p2(u1, t, links, vectors, theta[0])
+                # print sum
+                sum = np.squeeze(np.asarray(sum))
+                # print sum
                 theta[j] = theta[j] + alpha*(f - sum)
     return theta
 
@@ -124,14 +153,14 @@ def training(k=2, iters=1, alpha=1, randomNum=10):
 def run(randomNum):
     theta = training(k=3, randomNum=randomNum)
     print theta
-    links, paths, vectors = file2dataframe()
-    cost(paths, links, vectors, theta, k=3)
+    # links, paths, vectors = file2dataframe()
+    # cost(paths, links, vectors, theta, k=3)
 
 if __name__ == "__main__":
     print "start main"
-    theta = training(k=3, randomNum=1)
+    theta = training(k=3, randomNum=10)
     print theta
     # rank()
     # theta = np.ones((1, 4))
-    links, paths, vectors = file2dataframe()
-    cost(paths, links, vectors, theta, k=3)
+    # links, paths, vectors = file2dataframe()
+    # cost(paths, links, vectors, theta, k=3)
