@@ -11,8 +11,8 @@ import org.apache.spark.mllib.linalg.Vectors
 object DocKMeans {
 	def main(args: Array[String]) {
 
-//		getBestK(31, 40, 5, args)
-		getResult(12, 100)
+		getBestK(2, 40, 5, args)
+//		getResult(12, 100)
 	}
 
 	def getBestK(startK:Int, endK:Int, cntK:Int, args:Array[String]): Unit ={

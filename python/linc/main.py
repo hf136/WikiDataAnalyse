@@ -91,17 +91,49 @@ def probability(prefix, target, links, vectors, theta, k=2):
         p = p * (fz / fm)
     return p
 
+# 计算P(q|t; theta)
+def probability2(prefix, target, links, vectors, theta, k=2):
+    p = 1.0
+    for i in range(k-1):
+        u1 = prefix[i]
+        v = prefix[i+1]
+        if v == "<":
+            continue
+        us = links[links[0] == u1][1].values
+        l = len(us)
+        arr = np.zeros((l, 4))
+        f = 0
+        for j in range(l):
+            u2 = us[j]
+            deg2 = links[links[0] == u2][1].values
+            arr[j] = feature(vectors.ix[u1], vectors.ix[u2], vectors.ix[target], len(us), len(deg2))
+            if u2 == v:
+                f = j
+        mat = np.mat(arr)       # 原始特征矩阵 f (按行)
+        # print "f 矩阵：",mat
+        t = np.mat(theta[i])       # theta 矩阵
+        res = (mat * t.transpose())  # f*theta
+        # print "f*theta 矩阵：",res
+        res = np.exp(res)           # exp(f*theta)
+        sum = res.sum()             # sum( exp(f*theta) )
+        res = res[f] / sum             # P 矩阵
+        # print res.sum()
+    p = p * res.sum() * 100000
+    # print "%s P:%f"%(target,p)
+    return p
+
 # 排序
 def rank(prefix, target, links, vectors, theta, k=2):
     res = DataFrame(columns=["p"], index=vectors.index)
-    for i in range(vectors.shape[0]):
+    for i in range(vectors.shape[0]):       # vectors.shape[0]
         t = vectors.index[i]
         flag = False
         for j in range(k):
             if t == prefix[j]:
                 flag = True
         if flag == False:
-            res.loc[t] = probability(prefix, t, links, vectors, theta, k)
+            res.loc[t] = probability2(prefix, t, links, vectors, theta, k)
+    print res
     r = res.rank(ascending=False)['p'][target]
     return r
 
@@ -109,6 +141,7 @@ def rank(prefix, target, links, vectors, theta, k=2):
 def cost(paths, links, vectors, theta, k=2):
     cnt = 0
     for i in range(1):         # 对于每一个 path   len(paths["path"])
+        i = 3
         l = len(paths["path"][i])
         if l > k:
             r = rank(paths["path"][i], paths["path"][i][l-1], links, vectors, theta, k)
@@ -119,51 +152,52 @@ def cost(paths, links, vectors, theta, k=2):
     return cnt
 
 # 训练
-def training(k=2, iters=1, alpha=1, randomNum=10):
+def training(k=2, iters=1, alpha=0.1):
     links, paths, vectors = file2dataframe()
-    degrees = links[1].groupby(links[0]).count()
     theta = np.ones((k-1, 4))
+    ignore_cnt = 0
     for cnt in range(iters):                    # 迭代次数
-        for i in range(randomNum):         # 对于每一个样本前缀 i (path)  paths.shape[0]
+        for i in range(paths.shape[0]):         # 对于每一个样本前缀 i (path)  paths.shape[0]
             for j in range(k-1):                # 每一个 path 的第 j 次点击
                 prefix = paths['path'][i]
                 # print prefix
+                if len(prefix) <= k:
+                    continue
                 u1 = prefix[j]
                 u2 = prefix[j+1]
                 if u2 == "<":
-                    print "遇到'<',忽略继续"
+                    print "ignore < ,continue"
+                    ignore_cnt = ignore_cnt + 1
                     continue
                 t = prefix[len(prefix)-1]
                 us = links[links[0] == u1][1].values
-                deg2 = degrees[u2]
-                # # print u1, u2, t
-                # # print(vectors)
+                deg2 = len(links[links[0] == u2][1].values)
+                # print u1, u2, t
+                # print(vectors)
                 f = feature(vectors.ix[u1], vectors.ix[u2], vectors.ix[t], len(us), deg2)
-                # sum = np.zeros(4)
-                # for v in range(len(us)):
-                #     # print(sum)
-                #     # print(p(u1, u2, t, links, vectors, theta[j]))
-                #     sum = sum + p(u1, u2, t, links, vectors, theta[j])
-                # theta[j] = theta[j] + alpha*(f - sum)
                 sum = p2(u1, t, links, vectors, theta[0])
                 # print sum
                 sum = np.squeeze(np.asarray(sum))
                 # print sum
                 theta[j] = theta[j] + alpha*(f - sum)
+    print "ignore paths : %d"%ignore_cnt
     return theta
 
 # run
-def run(randomNum):
-    theta = training(k=3, randomNum=randomNum)
+def run():
+    theta = training(k=3)
     print theta
+    data = DataFrame(theta)
+    data.to_csv("theta.csv", header=None, index=None)
     # links, paths, vectors = file2dataframe()
     # cost(paths, links, vectors, theta, k=3)
 
 if __name__ == "__main__":
     print "start main"
-    theta = training(k=3, randomNum=100)
-    print theta
-    # rank()
-    # theta = np.ones((1, 4))
-    # links, paths, vectors = file2dataframe()
-    # cost(paths, links, vectors, theta, k=3)
+    # theta = training(k=3)
+    # print theta
+    # data = DataFrame(theta)
+    # data.to_csv("theta.csv", header=None, index=None)
+    theta = np.array([[-0.953518127917,0.582984542976,2.37796970923,1.07627585624],[-192.065484268,-154.19268372,-45.8360611839,0.432651064579]])
+    links, paths, vectors = file2dataframe()
+    cost(paths, links, vectors, theta, k=3)
