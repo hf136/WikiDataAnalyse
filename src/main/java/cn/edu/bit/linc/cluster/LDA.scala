@@ -48,7 +48,7 @@ object LDA {
     // 将单词和其在数组中的位置绑定  term -> term index
     val vocab: Map[String, Int] = vocabArray.zipWithIndex.toMap
     out.println("vocab :" + vocab.size)
-    out.close()
+    out.println()
 
     // Convert documents into term count vectors
     // 把每篇文档转化成向量
@@ -74,12 +74,13 @@ object LDA {
     // Print topics, showing top-weighted 10 terms for each topic.
     val topicIndices = ldaModel.describeTopics(maxTermsPerTopic = 2)
     topicIndices.foreach { case (terms, termWeights) =>
-      println("TOPIC:")
+      out.println("TOPIC:")
       terms.zip(termWeights).foreach { case (term, weight) =>
-        println(s"${vocabArray(term.toInt)}\t$weight")
+        out.println(s"${vocabArray(term.toInt)}\t$weight")
       }
-      println()
+      out.println()
     }
+    out.close()
 
     val result = ldaModel.topicDistributions.map(a => (articles.get(a._1), a._2)).map( a => {
       val arr = a._2.toArray
