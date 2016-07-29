@@ -1,4 +1,4 @@
-package cn.edu.bit.linc.kmeans
+package cn.edu.bit.linc.cluster.kmeans
 
 import java.io.{File, PrintWriter}
 
