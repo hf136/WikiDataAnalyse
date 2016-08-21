@@ -13,7 +13,7 @@ class SVM {
 
   def svm(sc:SparkContext): Unit ={
     // Load training data in LIBSVM format.
-    val data = MLUtils.loadLibSVMFile(sc, "data/mllib/sample_libsvm_data.txt")
+    val data = MLUtils.loadLibSVMFile(sc, "vector_list")
 
     // Split data into training (60%) and test (40%).
     val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)
@@ -57,7 +57,7 @@ class SVM {
 object SVM {
   def main(args: Array[String]) {
     System.setProperty("hadoop.home.dir", "C:\\Users\\wyq\\Desktop\\spark\\hadoop")
-    val conf = new SparkConf().setAppName("Page Rank").setMaster("local[*]")
+    val conf = new SparkConf().setAppName("SVM").setMaster("local[*]")
     val sc = new SparkContext(conf)
 
     val svm = new SVM()

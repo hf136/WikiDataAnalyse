@@ -9,10 +9,6 @@ import org.apache.spark.{SparkContext, SparkConf}
 /**
  * Created by wyq on 2016/5/5.
  */
-class LogisticRegression {
-
-}
-
 object LogisticRegression {
   def main(args: Array[String]) {
     System.setProperty("hadoop.home.dir", "C:\\Users\\wyq\\Desktop\\spark\\hadoop")
@@ -20,7 +16,7 @@ object LogisticRegression {
     val sc = new SparkContext(conf)
 
     // Load training data in LIBSVM format.
-    val data = MLUtils.loadLibSVMFile(sc, "data/mllib/sample_libsvm_data.txt")
+    val data = MLUtils.loadLibSVMFile(sc, "vector_list")
 
     // Split data into training (60%) and test (40%).
     val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)
